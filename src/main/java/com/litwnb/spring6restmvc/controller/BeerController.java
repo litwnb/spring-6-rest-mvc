@@ -2,7 +2,7 @@ package com.litwnb.spring6restmvc.controller;
 
 import com.litwnb.spring6restmvc.model.Beer;
 import com.litwnb.spring6restmvc.service.BeerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,40 +13,42 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/beer")
 public class BeerController {
+    public static final String BEER_PATH = "/api/v1/beer";
+    public static final String BEER_PATH_ID = BEER_PATH + "/{beerId}";
+
     private final BeerService beerService;
 
-    @DeleteMapping("{beerId}")
-    public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId) {
+    @DeleteMapping(BEER_PATH_ID)
+    public ResponseEntity<Beer> deleteById(@PathVariable("beerId") UUID beerId) {
         beerService.deleteById(beerId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping("{beerId}")
-    public ResponseEntity updateById(@PathVariable("beerId")UUID beerId, @RequestBody Beer beer) {
+    @PutMapping(BEER_PATH_ID)
+    public ResponseEntity<Beer> updateById(@PathVariable("beerId")UUID beerId, @RequestBody Beer beer) {
         beerService.updateBeerById(beerId, beer);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PostMapping
-    public ResponseEntity handlePost(@RequestBody Beer beer) {
+    @PostMapping(BEER_PATH)
+    public ResponseEntity<Beer> handlePost(@RequestBody Beer beer) {
         Beer savedBeer = beerService.saveNewBeer(beer);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
+        headers.add("Location", BEER_PATH + "/" + savedBeer.getId().toString());
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping(value = BEER_PATH)
     public List<Beer> listBeers() {
         return beerService.listBeers();
     }
 
-    @RequestMapping(value = "/{beerId}", method = RequestMethod.GET)
+    @GetMapping(value = BEER_PATH_ID)
     public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
         log.debug("Get Beer by Id in controller. Id: " + beerId.toString());
 
