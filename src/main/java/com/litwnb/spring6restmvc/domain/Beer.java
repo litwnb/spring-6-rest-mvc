@@ -1,16 +1,25 @@
-package com.litwnb.spring6restmvc.model;
+package com.litwnb.spring6restmvc.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import com.litwnb.spring6restmvc.model.BeerStyle;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Builder
-@Data
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Beer {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
+    @Version
     private Integer version;
     private String beerName;
     private BeerStyle beerStyle;

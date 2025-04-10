@@ -1,6 +1,6 @@
 package com.litwnb.spring6restmvc.controller;
 
-import com.litwnb.spring6restmvc.model.Beer;
+import com.litwnb.spring6restmvc.model.BeerDTO;
 import com.litwnb.spring6restmvc.service.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,20 +22,20 @@ public class BeerController {
     private final BeerService beerService;
 
     @DeleteMapping(BEER_PATH_ID)
-    public ResponseEntity<Beer> deleteById(@PathVariable("beerId") UUID beerId) {
+    public ResponseEntity<BeerDTO> deleteById(@PathVariable("beerId") UUID beerId) {
         beerService.deleteById(beerId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping(BEER_PATH_ID)
-    public ResponseEntity<Beer> updateById(@PathVariable("beerId")UUID beerId, @RequestBody Beer beer) {
+    public ResponseEntity<BeerDTO> updateById(@PathVariable("beerId")UUID beerId, @RequestBody BeerDTO beer) {
         beerService.updateBeerById(beerId, beer);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PostMapping(BEER_PATH)
-    public ResponseEntity<Beer> handlePost(@RequestBody Beer beer) {
-        Beer savedBeer = beerService.saveNewBeer(beer);
+    public ResponseEntity<BeerDTO> handlePost(@RequestBody BeerDTO beer) {
+        BeerDTO savedBeer = beerService.saveNewBeer(beer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", BEER_PATH + "/" + savedBeer.getId().toString());
@@ -44,7 +44,7 @@ public class BeerController {
     }
 
     @GetMapping(value = BEER_PATH)
-    public List<Beer> listBeers() {
+    public List<BeerDTO> listBeers() {
         return beerService.listBeers();
     }
 
@@ -54,7 +54,7 @@ public class BeerController {
     }
 
     @GetMapping(value = BEER_PATH_ID)
-    public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
+    public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId) {
         log.debug("Get Beer by Id in controller. Id: " + beerId.toString());
 
         return beerService.getBeerById(beerId).orElseThrow(NotFoundException::new);
