@@ -7,5 +7,5 @@ public enum BeerStyle {
     IPA,
     STOUT,
     WITBIER,
-    PORTER
+    SAISON, PALE_ALE, PORTER
 }
