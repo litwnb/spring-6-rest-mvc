@@ -11,4 +11,4 @@ create table beer (
                       update_date datetime(6),
                       version integer,
                       primary key (id)
-) engine=InnoDB;
+)
