@@ -1,4 +1,5 @@
 drop table if exists beer;
+drop table if exists customer;
 
 create table beer (
                       id varchar(36) not null,
@@ -11,4 +12,14 @@ create table beer (
                       update_date datetime(6),
                       version integer,
                       primary key (id)
+);
+
+create table customer (
+                          id varchar(36) not null,
+                          created_date datetime(6),
+                          name varchar(255),
+                          email varchar(255),
+                          update_date datetime(6),
+                          version integer,
+                          primary key (id)
 )
