@@ -13,6 +13,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -27,22 +28,32 @@ public class Beer {
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
+
     @Version
     private Integer version;
+
     @NotNull
     @NotBlank
     @Size(max = 50)
     @Column(length = 50)
     private String beerName;
+
     @NotNull
+    @JdbcTypeCode(value = SqlTypes.SMALLINT)
     private BeerStyle beerStyle;
+
     @NotNull
     @NotBlank
     @Size(max = 255)
     private String upc;
     private Integer quantityOnHand;
+
     @NotNull
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "beer")
+    private Set<BeerOrderLine> beerOrderLines;
+
     @CreationTimestamp
     private LocalDateTime createdDate;
     @UpdateTimestamp

@@ -1,9 +1,11 @@
 package com.litwnb.spring6restmvc.bootstrap;
 
 import com.litwnb.spring6restmvc.domain.Beer;
+import com.litwnb.spring6restmvc.domain.Customer;
 import com.litwnb.spring6restmvc.model.BeerCSVRecord;
 import com.litwnb.spring6restmvc.model.BeerStyle;
 import com.litwnb.spring6restmvc.repository.BeerRepository;
+import com.litwnb.spring6restmvc.repository.CustomerRepository;
 import com.litwnb.spring6restmvc.service.BeerCsvService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -16,18 +18,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class BootstrapData implements CommandLineRunner {
     private final BeerRepository beerRepository;
+    private final CustomerRepository customerRepository;
     private final BeerCsvService beerCsvService;
 
     @Transactional
     @Override
     public void run(String... args) throws Exception {
         loadBeerData();
+        loadCustomerData();
         loadCsvData();
     }
 
@@ -97,6 +102,31 @@ public class BootstrapData implements CommandLineRunner {
             beerRepository.save(beer2);
             beerRepository.save(beer3);
         }
+    }
+    private void loadCustomerData() {
+        if (customerRepository.count() == 0) {
+            Customer customer1 = Customer.builder()
+                    .name("Customer 1")
+                    .version(1)
+                    .createdDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
+                    .build();
 
+            Customer customer2 = Customer.builder()
+                    .name("Customer 2")
+                    .version(1)
+                    .createdDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
+                    .build();
+
+            Customer customer3 = Customer.builder()
+                    .name("Customer 3")
+                    .version(1)
+                    .createdDate(LocalDateTime.now())
+                    .updateDate(LocalDateTime.now())
+                    .build();
+
+            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3));
+        }
     }
 }
