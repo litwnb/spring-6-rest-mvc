@@ -59,7 +59,7 @@ public class BeerOrder {
         customer.getBeerOrders().add(this);
     }
 
-    public void setBearOrderShipment(BeerOrderShipment beerOrderShipment) {
+    public void setBeerOrderShipment(BeerOrderShipment beerOrderShipment) {
         this.beerOrderShipment = beerOrderShipment;
         beerOrderShipment.setBeerOrder(this);
     }
