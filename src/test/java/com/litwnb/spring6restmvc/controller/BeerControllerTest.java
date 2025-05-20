@@ -51,9 +51,6 @@ public class BeerControllerTest {
         beerServiceImpl = new BeerServiceImpl();
     }
 
-    public static final String USERNAME = "user1";
-    public static final String PASSWORD = "0e79318a-7123-4274-bd06-b1194b70eefa";
-
     public static final SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor jwtRequestPostProcessor =
             jwt().jwt(jwt -> jwt.claims(claims -> {
                                 claims.put("scope", "message-read");
